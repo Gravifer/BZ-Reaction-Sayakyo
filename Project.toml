@@ -1,0 +1,19 @@
+name = "BZ_Bridge"
+uuid = "e7702a82-0192-400c-8924-e0776c0c345f"
+authors = ["Gravifer <gravifer@outlook.com> and contributors"]
+version = "0.0.1-DEV"
+
+[deps]
+DrWatson = "634d3b9d-ee7a-5ddf-bec9-22491ea816e1"
+Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+
+[compat]
+julia = "1.11.5"
+DrWatson = "2.18.0"
+Revise = "3.7.6"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
