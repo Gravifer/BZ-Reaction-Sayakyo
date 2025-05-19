@@ -6,7 +6,7 @@ using LinearAlgebra, Random
 using StaticArrays, OffsetArrays
 # using CUDA
 using Images, ImageFiltering
-using Plots, ProgressBars
+using GLMakie, ProgressBars
 
 println("+++++ Packages loaded +++++")
 
@@ -42,24 +42,25 @@ end
 arr = rand(Float32, nx, ny, 3, 2)
 
 # Set up the plot
-plt = heatmap(view(arr, :, :, 1, 1), color=:winter, axis=false, legend=false, show=false, plot_title = "Step 0")
-# anim = @animate for i in ProgressBar(1:50)
-#     update!((i - 1) % 2 + 1, arr, s)
-#     heatmap!(plt, view(arr,:, :, 1, ((i - 1) % 2) + 1), color=:winter, plot_title = "Step $(i)")
-# end
-# gif(anim, "$(plotsdir())/bz.gif", fps=5)
+fig, ax, plt = image(view(arr, :, :, 1, 1), colormap = [:red, :blue])
 
-function animate_bz!(plt, arr, frames=200)
-    plt = heatmap(view(arr, :, :, 1, 1), color=:winter, axis=false, legend=false, show=false, plot_title = "Step 0")
-    anim = @animate for i in ProgressBar(1:frames)
-        update!((i - 1) % 2 + 1, arr, s)
-        heatmap!(plt, view(arr,:, :, 1, ((i - 1) % 2) + 1), color=:winter, plot_title = "Step $(i)")
-    end
-    return anim
+record(fig, plotsdir("bz.mp4"), ProgressBar(1:200)) do i
+    update!((i - 1) % 2 + 1, arr, s)
+    image!(ax, view(arr,:, :, 1, ((i - 1) % 2) + 1), colormap = [:red, :blue])
 end
 
-previous_GKSwstype = get(ENV, "GKSwstype", "")
-ENV["GKSwstype"] = "100"
-anim = animate_bz!(plt, arr, 200)
-gif(anim, "$(plotsdir())/bz.gif", fps=5)
-ENV["GKSwstype"] = previous_GKSwstype 
+run(`code $(plotsdir("bz.mp4"))`)
+
+# function animate_bz!(plt, arr, frames=200)
+#     anim = @animate for i in ProgressBar(1:frames)
+#         update!((i - 1) % 2 + 1, arr, s)
+#         heatmap!(plt, view(arr,:, :, 1, ((i - 1) % 2) + 1), color=:winter, plot_title = "Step $(i)")
+#     end
+#     return anim
+# end
+
+# previous_GKSwstype = get(ENV, "GKSwstype", "")
+# ENV["GKSwstype"] = "100"
+# anim = animate_bz!(plt, arr, 200)
+# gif(anim, plotsdir("bz.gif"), fps=5)
+# ENV["GKSwstype"] = previous_GKSwstype 
