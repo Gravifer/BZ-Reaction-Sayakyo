@@ -21,7 +21,7 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 StrideArraysCore = "7792a7ef-975c-4747-a70f-980b88e8d1da"
 
 [compat]
-CUDA = "5.8.1"
+CUDA = "5.8.1, 6.5"
 Colors = "0.12.11"
 DrWatson = "2"
 GLMakie = "0.10.9"
